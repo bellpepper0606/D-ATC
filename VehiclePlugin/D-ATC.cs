@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
-
+using AtsEx.PluginHost.Handles;
+using AtsEx.PluginHost.Native;
 using AtsEx.PluginHost.Plugins;
+using BveTypes.ClassWrappers;
 
 namespace AtsExCsTemplate.VehiclePlugin
 {
@@ -16,6 +19,13 @@ namespace AtsExCsTemplate.VehiclePlugin
     [Plugin(PluginType.VehiclePlugin)]
     internal class VehiclePluginMain : AssemblyPluginBase
     {
+        private double pattern;
+        private double distance;
+        private double speed;
+        private double maxSpeed;
+        private double deceleration;
+        private SectionManager sectionManager;
+        public SectionManager SectionManager { get => sectionManager; set => sectionManager = value; }
         /// <summary>
         /// プラグインが読み込まれた時に呼ばれる
         /// 初期化を実装する
@@ -23,6 +33,7 @@ namespace AtsExCsTemplate.VehiclePlugin
         /// <param name="builder"></param>
         public VehiclePluginMain(PluginBuilder builder) : base(builder)
         {
+            maxSpeed = 120;
         }
 
         /// <summary>
@@ -39,7 +50,23 @@ namespace AtsExCsTemplate.VehiclePlugin
         /// <param name="elapsed">前回フレームからの経過時間</param>
         public override TickResult Tick(TimeSpan elapsed)
         {
-            return new VehiclePluginTickResult();
+            int brake = Native.Handles.Brake.Notch;
+            int targetSectionIndex = sectionManager.StopSignalSectionIndexes[0];
+            double limitDistance;
+            VehiclePluginTickResult ret = new VehiclePluginTickResult();
+            distance = sectionManager.Sections[targetSectionIndex].Location;
+            limitDistance = distance - 10;
+            pattern = 3.6 * (Math.Sqrt((2 * (deceleration / 3.6) * limitDistance) + Math.Pow((0 / 3.6), 2)));
+            if (Native.VehicleState.Speed > pattern)
+            {
+                brake = Native.Handles.Brake.MaxServiceBrakeNotch;
+            }
+            ret.HandleCommandSet = new HandleCommandSet(
+            Native.Handles.Power.GetCommandToSetNotchTo(Native.Handles.Power.Notch),
+            Native.Handles.Brake.GetCommandToSetNotchTo(brake),
+            ReverserPositionCommandBase.Continue,
+            ConstantSpeedCommand.Continue);
+            return ret;
         }
     }
 }
