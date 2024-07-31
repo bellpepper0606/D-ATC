@@ -20,6 +20,8 @@ namespace AtsExCsTemplate.VehiclePlugin
     internal class VehiclePluginMain : AssemblyPluginBase
     {
         private double pattern;
+        private double signalPattern;
+        private double curvePattern;
         private double distance;
         private double speed;
         private double maxSpeed;
@@ -55,8 +57,9 @@ namespace AtsExCsTemplate.VehiclePlugin
             double limitDistance;
             VehiclePluginTickResult ret = new VehiclePluginTickResult();
             distance = sectionManager.Sections[targetSectionIndex].Location;
-            limitDistance = distance - 10;
-            pattern = 3.6 * (Math.Sqrt((2 * (deceleration / 3.6) * limitDistance) + Math.Pow((0 / 3.6), 2)));
+            limitDistance = distance - 10 - Native.VehicleState.Location;
+            signalPattern = CalculatePattern(-3, limitDistance, 0);
+            pattern = Math.Min(signalPattern, curvePattern);
             if (Native.VehicleState.Speed > pattern)
             {
                 brake = Native.Handles.Brake.MaxServiceBrakeNotch;
@@ -67,6 +70,10 @@ namespace AtsExCsTemplate.VehiclePlugin
             ReverserPositionCommandBase.Continue,
             ConstantSpeedCommand.Continue);
             return ret;
+        }
+        double CalculatePattern(double deceleration, double targetDistance, double targetSpeed)
+        {
+            return 3.6 * (Math.Sqrt((2 * (deceleration / 3.6) * targetDistance) + Math.Pow((targetSpeed / 3.6), 2)));
         }
     }
 }
