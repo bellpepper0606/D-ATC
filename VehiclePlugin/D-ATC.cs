@@ -33,10 +33,12 @@ namespace AtsExCsTemplate.VehiclePlugin
         private double distance;
         private double maxSpeed;
         private double deceleration;
+        private double stopMargin;
+        private double limitMargin;
         private bool isCurvePattern;
         private double targetLimit;
         private double targetDistance;
-        private bool B;
+        private bool targetBeacon;
         private int optional;
         private int type;
         private SectionManager sectionManager;
@@ -61,12 +63,27 @@ namespace AtsExCsTemplate.VehiclePlugin
             {
                 deceleration = double.Parse(sb.ToString());
             }
+            sb = new StringBuilder(capacitySize);
+            ret = GetPrivateProfileString("Data", "Stopmargin", "none", sb, Convert.ToUInt32(sb.Capacity), $@"{path.DirectoryName}\D-ATC.ini");
+            if (0 < ret)
+            {
+                stopMargin = double.Parse(sb.ToString());
+            }
+            sb = new StringBuilder(capacitySize);
+            ret = GetPrivateProfileString("Data", "Limitmargin", "none", sb, Convert.ToUInt32(sb.Capacity), $@"{path.DirectoryName}\D-ATC.ini");
+            if (0 < ret)
+            {
+                limitMargin = double.Parse(sb.ToString());
+            }
             Native.BeaconPassed += new BeaconPassedEventHandler(BeaconPassed);
             BveHacker.ScenarioCreated += ScenarioCreated;
             limitSpeed = Native.AtsPanelValues.RegisterInt32(67);
             limitSpeed_5 = Native.AtsPanelValues.RegisterInt32(66);
         }
-
+        /// <summary>
+        /// scenarioが作られたときに呼ばれる
+        /// </summary>
+        /// <param name="e"></param>
         private void ScenarioCreated(ScenarioCreatedEventArgs e)
         {
             sectionManager = e.Scenario.SectionManager;
@@ -83,7 +100,10 @@ namespace AtsExCsTemplate.VehiclePlugin
             limitSpeed.Dispose();
             limitSpeed_5.Dispose();
         }
-
+        /// <summary>
+        /// Beaconを通過したときに呼ばれる
+        /// </summary>
+        /// <param name="e">Beaconに設定した引数</param>
         public void BeaconPassed(BeaconPassedEventArgs e)
         {
             type = e.Type;
@@ -101,7 +121,7 @@ namespace AtsExCsTemplate.VehiclePlugin
                     targetDistance = int.Parse(optional.Substring(0, optional.Length - 3));
                     targetLimit = int.Parse(optional.Substring(optional.Length - 3, 3));
                     Debug.WriteLine(targetDistance + "&" + targetLimit);
-                    B = true;
+                    targetBeacon = true;
                     break;
                 case 213:
                     break;
@@ -135,23 +155,23 @@ namespace AtsExCsTemplate.VehiclePlugin
                     throw new InvalidOperationException("条件に合致するビーコンが見つかりませんでした。");
                 return closestBeacon;
             }
-            if (B)
+            if (targetBeacon)
             {
                 Beacon closestBeacon = FindClosestBeacon(beacon => beacon.Type == type && beacon.SendData == optional);
-                targetDistance = targetDistance + closestBeacon.Location;
-                B = false;
+                targetDistance += closestBeacon.Location;
+                targetBeacon = false;
             }
             int brake = Native.Handles.Brake.Notch;
             int targetSectionIndex = sectionManager.StopSignalSectionIndexes[0];
             double limitDistance;
             VehiclePluginTickResult ret = new VehiclePluginTickResult();
             distance = sectionManager.Sections[targetSectionIndex].Location;
-            limitDistance = distance - 10 - Native.VehicleState.Location;
+            limitDistance = distance - stopMargin - Native.VehicleState.Location;
             //Debug.WriteLine(limitDistance);
             signalPattern = CalculatePattern(deceleration, limitDistance, 0);
             if(isCurvePattern)
             {
-                double pattern = CalculatePattern(deceleration, targetDistance - Native.VehicleState.Location, targetLimit);
+                double pattern = CalculatePattern(deceleration, targetDistance - limitMargin - Native.VehicleState.Location, targetLimit);
                 curvePattern = Math.Max(double.IsNaN(pattern) ? 0 : pattern, targetLimit);
                 Debug.WriteLine(curvePattern);
             }
