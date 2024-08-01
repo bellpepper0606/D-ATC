@@ -7,6 +7,8 @@
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <Deterministic>false</Deterministic>
     <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
+    <BaseOutputPath>D:\BveTs\Scenarios\SotoHane\E233系1000番台\AtsEx</BaseOutputPath>
+    <OutputType>Library</OutputType>
   </PropertyGroup>
 
   <ItemGroup>
