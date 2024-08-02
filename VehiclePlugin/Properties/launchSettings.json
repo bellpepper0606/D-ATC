@@ -6,7 +6,7 @@
     "プロファイル 1": {
       "commandName": "Executable",
       "executablePath": "C:\\Program Files\\mackoy\\BveTs6\\BveTs.exe",
-      "commandLineArgs": "\"D:\\BveTs\\Scenarios\\京浜東北線902C_D-ATC.txt\""
+      "commandLineArgs": "\"D:\\BveTs\\Scenarios\\松井空港線D-ATC10car.txt\""
     }
   }
 }
