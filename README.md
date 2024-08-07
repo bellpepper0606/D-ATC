@@ -1,12 +1,3 @@
-# READMEのテンプレート
-## 使い方
-1. 既にある`README.md`を消す
-2. このテンプレートを`README.md`にリネームする
-3. 水平線より上(この使い方の部分)を消す
-4. `D-ATC`をリポジトリの名前に置換する
-5. Todoのところを書く
-6. 保存してコミット&プッシュ
----
 # D-ATC
 [AtsEX](https://github.com/automatic9045/AtsEX)を使ったBve5またはBve6用のプラグイン
 AtsEXを使用してD-ATCの動作をシミュレートします。
@@ -53,7 +44,7 @@ AtsEXを使用してD-ATCの動作をシミュレートします。
     ```
 3. 設定ファイルを作成し本プラグインの情報を記入します  
    VehiclePluginUsing.xml(例): 
-        ```xml
+    ```xml
         <?xml version="1.0" encoding="utf-8" ?>
         <AtsExPluginUsing xmlns="http://automatic9045.github.io/ns/xmlschemas/AtsExPluginUsingXmlSchema.xsd">
         	<Assembly Path="AtsEXPlugins\D-ATC.dll" />
@@ -78,8 +69,6 @@ AtsEXを使用してD-ATCの動作をシミュレートします。
 
 
 ## ライセンス
-- **Todo: `LICENSE`の著作権表示を書き換える**
-- **Todo: ライセンスを変更する場合には`LICENSE`を書き換えた後にここも変更する**
 - [MIT](LICENSE)
     - できること
         - 商用利用
@@ -100,16 +89,16 @@ AtsEXを使用してD-ATCの動作をシミュレートします。
     - BVE Trainsim Version 5.8.7554.391 or later
     - BVE Trainsim Version 6.0.7554.619 or later
 - [AtsEX](https://github.com/automatic9045/AtsEX)
-    - [ver1.0-RC5 - v1.0.40101.1](https://github.com/automatic9045/AtsEX/releases/tag/v1.0.40101.1) or later
+    - [ver1.0-RC9 - v1.0.40627.1](https://github.com/automatic9045/AtsEX/releases/tag/v1.0.40627.1) or later
 
 
 ## 開発環境
 **Todo: 開発環境を必要に応じて変更**
 - [AtsEX](https://github.com/automatic9045/AtsEX)
-    - [ver1.0-RC5 - v1.0.40101.1](https://github.com/automatic9045/AtsEX/releases/tag/v1.0.40101.1)
-- Win10 22H2
+    - [ver1.0-RC9 - v1.0.40627.1](https://github.com/automatic9045/AtsEX/releases/tag/v1.0.40627.1)
+- Win11 23H2
     - Visual Studio 2022
-        - Microsoft Visual Studio Community 2022 (64 ビット) - Current Version 17.5.3
+        - Microsoft Visual Studio Community 2022 (64 ビット) - Current Version 17.10.5
 - [Bve](https://bvets.net/)
     - BVE Trainsim Version 5.8.7554.391
     - BVE Trainsim Version 6.0.7554.619
@@ -117,8 +106,8 @@ AtsEXを使用してD-ATCの動作をシミュレートします。
 
 ## 依存環境
 **Todo: 依存環境を必要に応じて変更**
-- AtsEx.CoreExtensions (1.0.0-rc1)
-- AtsEx.PluginHost (1.0.0-rc5)
+- AtsEx.CoreExtensions (1.0.0-rc9)
+- AtsEx.PluginHost (1.0.0-rc9)
 
 (開発者向け)  
 間接参照を含めたすべての依存情報については、各プロジェクトのフォルダにある `packages.lock.json` をご確認ください。
