@@ -50,7 +50,6 @@ AtsEXを使用してD-ATCの動作をシミュレートします。
         	<Assembly Path="AtsEXPlugins\D-ATC.dll" />
         	<Assembly Path="AtsEXPlugins\OtherPlugin.dll" />
         </AtsExPluginUsing>
-        ```
    ```
 > [!WARNING]
 > この項目の内容はすべてが正しい保証がありません
