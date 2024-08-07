@@ -21,6 +21,7 @@ AtsEXを使用してD-ATCの動作をシミュレートします。
     　 　 ├ Vehicle.txt
     　 　 ├ AtsEXPlugins
     　 　 │ ├ 本プラグイン(D-ATC.dll)
+    　 　 │ ├ 設定ファイル(D-ATC.ini)
     　 　 │ └ OtherPlugin.dll
     　 　 ├ VehiclePluginUsing.xml
     　 　 ├ Ats
@@ -42,8 +43,17 @@ AtsEXを使用してD-ATCの動作をシミュレートします。
     　 　 ├ Parameters.txt
     　 　 └ ...
     ```
-3. 設定ファイルを作成し本プラグインの情報を記入します  
-   VehiclePluginUsing.xml(例): 
+3. 設定ファイル(D-ATC.ini)に、情報を記入します
+    (デフォルト値):
+    ```ini
+        [Data]
+        Decelation = 3.0
+        Stopmargin = 60
+        Limitmargin = 10
+    ```
+
+4. VehiclePluginUsing.xmlに本プラグインの情報を記入します  
+   (例): 
     ```xml
         <?xml version="1.0" encoding="utf-8" ?>
         <AtsExPluginUsing xmlns="http://automatic9045.github.io/ns/xmlschemas/AtsExPluginUsingXmlSchema.xsd">
@@ -62,11 +72,25 @@ AtsEXを使用してD-ATCの動作をシミュレートします。
 ## 使い方
 - **Todo: 必要に応じて書く**
 ### パネル
-| index | 型   | 機能       | 備考              |
+| index | 型   | 機能       | 備考               |
 | ----- | ---- | ---------- | ----------------- |
+| ats52 | bool | ATC電源 | 特になし |
+| ats53 | bool | ATC | 特になし |
+| ats55 | bool | ATC開放 | 特になし |
+| ats56 | bool | ATC非常運転 | 特になし |
+| ats57 | bool | ATC非常 | 特になし |
+| ats58 | bool | ATC常用 | 特になし |
+| ats58 | bool | デジタルATC | 特になし |
 | ats66 | int  | D-ATC現示速度 | 5km刻み(E231系など用) |
 | ats67 | int  | D-ATC現示速度 | 1km刻み |
+| ats68 | bool | パターン接近 | 特になし |
+| ats71 | bool | ATC-01 | ATC0km現示 |
+### サウンド
+| index | 機能        | 備考               |
+| ----- | ---------- | ----------------- |
+| ats |  |  |
 
+## 
 
 ## ライセンス
 - [MIT](LICENSE)
@@ -92,7 +116,6 @@ AtsEXを使用してD-ATCの動作をシミュレートします。
 
 
 ## 開発環境
-**Todo: 開発環境を必要に応じて変更**
 - [AtsEX](https://github.com/automatic9045/AtsEX)
     - [ver1.0-RC9 - v1.0.40627.1](https://github.com/automatic9045/AtsEX/releases/tag/v1.0.40627.1)
 - Win11 23H2
