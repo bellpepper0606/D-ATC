@@ -43,8 +43,8 @@ AtsEXを使用してD-ATCの動作をシミュレートします。
     　 　 ├ Parameters.txt
     　 　 └ ...
     ```
-3. 設定ファイル(D-ATC.ini)に、情報を記入します　
-    (デフォルト値):
+3. 設定ファイル(D-ATC.ini)に、情報を記入します
+   (デフォルト値):
     ```ini
         [Data]
         Decelation = 3.0
@@ -52,7 +52,7 @@ AtsEXを使用してD-ATCの動作をシミュレートします。
         Limitmargin = 10
     ```
 
-4. VehiclePluginUsing.xmlに本プラグインの情報を記入します  
+5. VehiclePluginUsing.xmlに本プラグインの情報を記入します  
    (例): 
     ```xml
         <?xml version="1.0" encoding="utf-8" ?>
